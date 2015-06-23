@@ -48,6 +48,12 @@ Route::resource('campaign', 'CampaignController');
 /* Campaigns API Calls */
 Route::get('api/campaign/all', 'CampaignController@apiGetCampaigns');
 
+/* Campaigns Resource Controller*/
+Route::resource('question', 'QuestionController');
+
+/* Campaigns Resource Controller*/
+Route::resource('order', 'OrderController');
+
 
 
 Route::controllers([

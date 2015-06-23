@@ -12,11 +12,13 @@
 
 	<!-- Fonts -->
 	<link href='//fonts.googleapis.com/css?family=Roboto:400,300' rel='stylesheet' type='text/css'>
+	<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css" rel="stylesheet">
 
 	<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
 	<!-- <link rel="stylesheet" href="//cdn.datatables.net/1.10.7/css/jquery.dataTables.min.css"> -->
 	<link rel="stylesheet" href="//cdn.datatables.net/plug-ins/1.10.7/integration/bootstrap/3/dataTables.bootstrap.css">
-
+	<link href="{{ asset('/css/summernote.css') }}" rel="stylesheet">
+	
 	<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
 	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
 	<!--[if lt IE 9]>
@@ -64,6 +66,13 @@
 							<li><a href="{{ url('campaign/create') }}">Add Campaign</a></li>
 						</ul>
 					</li>
+					<li class="dropdown">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Questions <span class="caret"></span></a>
+						<ul class="dropdown-menu" role="menu">
+							<li><a href="{{ url('question') }}">Question List</a></li>
+							<li><a href="{{ url('question/create') }}">Add Question</a></li>
+						</ul>
+					</li>
 				</ul>
 
 				<ul class="nav navbar-nav navbar-right">
@@ -89,7 +98,6 @@
 	<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 	<script src="{{ asset('bootflat/js/icheck.min.js') }}"></script>
 	<script src="{{ asset('bootflat/js/jquery.fs.selecter.min.js') }}"></script>
-	<script src="{{ asset('bootflat/js/jquery.fs.selecter.min.js') }}"></script>
 	<script src="{{ asset('bootflat/js/jquery.fs.stepper.min.js') }}"></script>
 	<script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.1/js/bootstrap.min.js"></script>
 	<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
@@ -97,6 +105,9 @@
 	<script src="//cdn.datatables.net/plug-ins/1.10.7/integration/bootstrap/3/dataTables.bootstrap.js"></script>
 	<script src="//cdn.datatables.net/plug-ins/1.10.7/integration/bootstrap/3/dataTables.bootstrap.js"></script>
 	<script src="{{ asset('js/jquery.progressTimer.js') }}"></script>
+
+	<script src="{{ asset('js/summernote.js') }}"></script>
+
 	<script>
 	var progress = $(".loading-progress").progressTimer({
 			  timeLimit: 10,
@@ -308,6 +319,30 @@
 	    $( "#todate" ).datepicker({ dateFormat: 'yy-mm-dd' });
 	  });
 
+	$("#CampaignName").change(function() {
+		var CampaignName = $("#CampaignName option:selected").text()
+  		$("#QuestionCode").val(CampaignName.replace(/ /g,'_'));	
+  		// .replace(/ /g,'')	
+	});
+
+	
+	 
+
+	 $("#btnGenerate").click(function() {
+	     var num = parseInt($("#numGenerate").val());
+	     var html = '';
+	     for(var i = 0; i < num ; i++)
+	     {
+	     	html = '<tr><td>Script</td><td><textarea name="script'+i+'"> Content here.. </textarea></td></tr>';
+	     	$('#scripts').append(html);
+	     }
+	     $('textarea').summernote();
+	     $('#NumberOfScripts').val(i);
+ 		 
+ 		 
+ 		 console.log(num);
+	});
+
 	//   $body = $("body");
 
 	// $(document).on({
@@ -316,5 +351,6 @@
 	// });
 	 
   </script>
+
 </body>
 </html>
