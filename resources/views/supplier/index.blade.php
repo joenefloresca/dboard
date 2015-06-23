@@ -24,7 +24,7 @@
 				          @endif
 				        @endforeach
 			        </div>
-				
+					<div class="loading-progress" id="progressbar" style="padding-left: 2px; padding-right: 2px; padding-top: 2px"></div>
                     <table id="supplierList" class="table table-striped table-bordered" cellspacing="0" width="100%">
                         <thead>
                             <tr>

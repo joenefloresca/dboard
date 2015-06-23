@@ -42,6 +42,11 @@ Route::resource('supplier', 'SupplierController');
 /* Supplier API Calls */
 Route::get('api/supplier/all', 'SupplierController@apiGetSuppliers');
 
+/* Campaigns Resource Controller*/
+Route::resource('campaign', 'CampaignController');
+
+/* Campaigns API Calls */
+Route::get('api/campaign/all', 'CampaignController@apiGetCampaigns');
 
 
 

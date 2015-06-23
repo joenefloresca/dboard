@@ -57,6 +57,13 @@
 							<li><a href="{{ url('supplier/create') }}">Add Supplier</a></li>
 						</ul>
 					</li>
+					<li class="dropdown">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Campaigns <span class="caret"></span></a>
+						<ul class="dropdown-menu" role="menu">
+							<li><a href="{{ url('campaign') }}">Campaign List</a></li>
+							<li><a href="{{ url('campaign/create') }}">Add Campaign</a></li>
+						</ul>
+					</li>
 				</ul>
 
 				<ul class="nav navbar-nav navbar-right">
@@ -91,53 +98,109 @@
 	<script src="//cdn.datatables.net/plug-ins/1.10.7/integration/bootstrap/3/dataTables.bootstrap.js"></script>
 	<script src="{{ asset('js/jquery.progressTimer.js') }}"></script>
 	<script>
+	var progress = $(".loading-progress").progressTimer({
+			  timeLimit: 10,
+			  onFinish: function () {
+			  alert('Data Loading Completed!');
+			}
+		});
+
+	$.ajax({
+		url: "api/campaign/all", 
+		type: 'GET',
+		success: function(result){
+		var myObj = $.parseJSON(result);
+	    	$.each(myObj, function(key,value) {
+	    		var t = $('#campaignList').DataTable();
+
+	    		t.row.add( [
+		            value.id,
+		            value.CampaignName,
+		            "<a class='btn btn-small btn-info' href='http://localhost/dboard/public/campaign/"+value.id+"/edit'><span class='glyphicon glyphicon glyphicon-edit' aria-hidden='true'></span></a>",
+		            "<form method='POST' action='http://localhost/dboard/public/campaign/"+value.id+"' accept-charset='UTF-8' class='pull-left' >"+
+		            "<input name='_method' type='hidden' value='DELETE'>"+
+		            "<button type='submit' class='btn btn-warning'><span class='glyphicon glyphicon-trash' aria-hidden='true'></span></button>"+"</form>",
+	        	] ).draw();
+	    		
+			});
+		}}).error(function(){
+			  progress.progressTimer('error', {
+			  errorText:'ERROR!',
+			  onFinish:function(){
+			    alert('There was an error processing your information!');
+			  }
+			});
+		}).done(function(){
+  			progress.progressTimer('complete');
+  			$( "#progressbar" ).fadeOut( "slow" );
+		});
+
 	$.ajax({
 		url: "api/supplier/all", 
 		type: 'GET',
 		success: function(result){
 		var myObj = $.parseJSON(result);
-    	$.each(myObj, function(key,value) {
-    		var t = $('#supplierList').DataTable();
+	    	$.each(myObj, function(key,value) {
+	    		var t = $('#supplierList').DataTable();
 
-    		t.row.add( [
-	            value.id,
-	            value.CompanyName,
-	            value.CompanyAlias,
-	            value.CompanyOwner,
-	            value.Website,
-	            value.Type,
-	            "<a class='btn btn-small btn-info' href='http://localhost/dboard/public/supplier/"+value.id+"/edit'><span class='glyphicon glyphicon glyphicon-edit' aria-hidden='true'></span></a>",
-	            "<form method='POST' action='http://localhost/dboard/public/supplier/"+value.id+"' accept-charset='UTF-8' class='pull-left' >"+
-	            "<input name='_method' type='hidden' value='DELETE'>"+
-	            "<button type='submit' class='btn btn-warning'><span class='glyphicon glyphicon-trash' aria-hidden='true'></span></button>"+"</form>",
-        	] ).draw();
-    		
+	    		t.row.add( [
+		            value.id,
+		            value.CompanyName,
+		            value.CompanyAlias,
+		            value.CompanyOwner,
+		            value.Website,
+		            value.Type,
+		            "<a class='btn btn-small btn-info' href='http://localhost/dboard/public/supplier/"+value.id+"/edit'><span class='glyphicon glyphicon glyphicon-edit' aria-hidden='true'></span></a>",
+		            "<form method='POST' action='http://localhost/dboard/public/supplier/"+value.id+"' accept-charset='UTF-8' class='pull-left' >"+
+		            "<input name='_method' type='hidden' value='DELETE'>"+
+		            "<button type='submit' class='btn btn-warning'><span class='glyphicon glyphicon-trash' aria-hidden='true'></span></button>"+"</form>",
+	        	] ).draw();
+	    		
+			});
+		}}).error(function(){
+			  progress.progressTimer('error', {
+			  errorText:'ERROR!',
+			  onFinish:function(){
+			    alert('There was an error processing your information!');
+			  }
+			});
+		}).done(function(){
+  			progress.progressTimer('complete');
+  			$( "#progressbar" ).fadeOut( "slow" );
 		});
-	}});
-
 
 	$.ajax({
 		url: "api/client/all", 
 		type: 'GET',
 		success: function(result){
 		var myObj = $.parseJSON(result);
-    	$.each(myObj, function(key,value) {
-    		var t = $('#clientsList').DataTable();
+	    	$.each(myObj, function(key,value) {
+	    		var t = $('#clientsList').DataTable();
 
-    		t.row.add( [
-	            value.id,
-	            value.ClientName,
-	            value.TradingName,
-	            value.ClientCode,
-	            value.ClientOwner,
-	            "<a class='btn btn-small btn-info' href='http://localhost/dboard/public/client/"+value.id+"/edit'><span class='glyphicon glyphicon glyphicon-edit' aria-hidden='true'></span></a>",
-	            "<form method='POST' action='http://localhost/dboard/public/client/"+value.id+"' accept-charset='UTF-8' class='pull-left' >"+
-	            "<input name='_method' type='hidden' value='DELETE'>"+
-	            "<button type='submit' class='btn btn-warning'><span class='glyphicon glyphicon-trash' aria-hidden='true'></span></button>"+"</form>",
-        	] ).draw();
-    		
+	    		t.row.add( [
+		            value.id,
+		            value.ClientName,
+		            value.TradingName,
+		            value.ClientCode,
+		            value.ClientOwner,
+		            "<a class='btn btn-small btn-info' href='http://localhost/dboard/public/client/"+value.id+"/edit'><span class='glyphicon glyphicon glyphicon-edit' aria-hidden='true'></span></a>",
+		            "<form method='POST' action='http://localhost/dboard/public/client/"+value.id+"' accept-charset='UTF-8' class='pull-left' >"+
+		            "<input name='_method' type='hidden' value='DELETE'>"+
+		            "<button type='submit' class='btn btn-warning'><span class='glyphicon glyphicon-trash' aria-hidden='true'></span></button>"+"</form>",
+	        	] ).draw();
+	    		
+			});
+		}}).error(function(){
+			  progress.progressTimer('error', {
+			  errorText:'ERROR!',
+			  onFinish:function(){
+			    alert('There was an error processing your information!');
+			  }
+			});
+		}).done(function(){
+  			progress.progressTimer('complete');
+  			$( "#progressbar" ).fadeOut( "slow" );
 		});
-	}});
 	
 	$.ajax({
 		url: "api/deliverytracker/complete", 
@@ -228,20 +291,12 @@
   			$( "#progressbar" ).fadeOut( "slow" );
 		});
 	});
-  			
-	
 
 
 	$("#btnClear").click(function(){
 		var t = $('#myTable').DataTable();
 	    t.clear().draw();
 	});
-
-
-
-
-
-
 
 	$(document).ready(function(){
     	$('#myTable').DataTable();
